@@ -1,0 +1,25 @@
+  GNU nano 7.2                           flasktest.py                                     
+#!/bin/python3
+
+from flask import Flask
+
+app = Flask(__name__)
+
+@app.route("/")
+
+def get_meme():
+   return "It runs right?..."
+   url = "https://meme-api.herokuapp.com/gimme"
+   response = json.loads(requests.request("GET", url).text)
+   meme_large = response["preview"][-2]
+   subreddit = response["subreddit"]
+   return meme_large, subreddit
+
+
+def index():
+   meme_pic,subreddit = get_meme()
+   return render_template("meme_index.html", meme_pic=meme_pic,subreddit=subreddit)
+
+app.run(host="0.0.0.0", port=80)
+
+
